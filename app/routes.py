@@ -21,7 +21,6 @@ def validate_book(book_id):
 # route functions
 @books_bp.route("", methods=["GET"])
 def read_all_books():
-
     title_query = request.args.get("title")
     if title_query:
         books = Book.query.filter_by(title=title_query)
@@ -60,7 +59,8 @@ def create_book():
     db.session.add(new_book)
     db.session.commit()
 
-    return make_response(f"Book {new_book.title} successfully created", 201)
+    return make_response(jsonify(f"Book {new_book.title} successfully created"), 201)
+
 
 @books_bp.route("/<book_id>", methods=["PUT"])
 def update_book(book_id):
@@ -75,7 +75,7 @@ def update_book(book_id):
 
     db.session.commit()
 
-    return f"Book #{book_id} successfully updated"
+    return make_response(jsonify(f"Book #{book_id} successfully updated"), 200)
 
 @books_bp.route("/<book_id>", methods=["DELETE"])
 def delete_book(book_id):
@@ -84,4 +84,4 @@ def delete_book(book_id):
     db.session.delete(book)
     db.session.commit()
 
-    return make_response(f"Book {book_id} successfully deleted")
+    return make_response(jsonify(f"Book {book_id} successfully deleted"), 200)
