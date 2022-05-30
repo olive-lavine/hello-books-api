@@ -5,7 +5,6 @@ from flask import Blueprint, jsonify, abort, make_response, request
 
 authors_bp = Blueprint("authors_bp", __name__, url_prefix="/authors")
 
-
 def validate_author(author_id):
     try:
         author_id = int(author_id)
@@ -42,15 +41,6 @@ def read_all_authors():
             }
         )
     return jsonify(authors_response)
-
-@authors_bp.route("/<author_id>", methods=["GET"])
-def read_one_author(author_id):
-    author = validate_author(author_id)
-
-    return {
-        "id": author.id,
-        "name": author.name,
-    }
 
 @authors_bp.route("/<author_id>/books", methods=["POST"])
 def create_book(author_id):
